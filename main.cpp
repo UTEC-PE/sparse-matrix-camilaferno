@@ -16,10 +16,10 @@ int main(int argc, char *argv[]) {
   matrix.set(1, 1, 5);
   matrix.set(2, 2, 9);
   matrix.set(0, 2, 7);
+
   cout << endl;
   matrix.print();
   cout << endl;
-  cout << matrix(1,0);
 
 
     return EXIT_SUCCESS;

@@ -41,30 +41,45 @@ class Matrix {
           Node<T>* TmpR=hRows;
           Node<T>* TmpC=hColumns;
           Node<T>* newNode = new Node<T>(x, y, data);
+          bool exists=false;
+
 
           for(int i=0; i<columns; i++){
             if(x==i){
               while(TmpC->down && y > TmpC->down->getYData()){
                 TmpC=TmpC->down;
               }
-              if(TmpC->down){newNode->down = TmpC->down;}
+              if(TmpC->down){
+                if(TmpC->down->getXData()==x && TmpC->down->getYData()==y){ //modifica
+                  exists=true;
+                  TmpC->down->data=data;
+                  delete newNode;
+                  break;
+                }
+                else{
+                  newNode->down = TmpC->down; //Crea
+                }
+              }
               TmpC->down = newNode;
               break;
             }
             else{TmpC=TmpC->next;}
           }
 
-          for(int j=0; j<rows; j++){
-            if(y==j){
-              while( TmpR->next && x > TmpR->next->getXData() ){
-                TmpR=TmpR->next;
+          if(!exists){
+            for(int j=0; j<rows; j++){
+              if(y==j){
+                while( TmpR->next && x > TmpR->next->getXData() ){
+                  TmpR=TmpR->next;
+                }
+                if(TmpR->next){newNode->next = TmpR->next;}
+                TmpR->next = newNode;
+                break;
               }
-              if(TmpR->next){newNode->next = TmpR->next;}
-              TmpR->next = newNode;
-              break;
+              else{TmpR=TmpR->down;}
             }
-            else{TmpR=TmpR->down;}
           }
+
 
         };
 
@@ -78,23 +93,29 @@ class Matrix {
                 while(TmpC->down && y>TmpC->down->getYData()){
                   TmpC=TmpC->down;
                 }
-                cout << TmpC->down->getXData() << " " << TmpC->down->getYData() << endl;
                 if(TmpC->down->getXData()==x && TmpC->down->getYData()==y){
-                  cout << "wo";
-                  return TmpC->down->getData();
+                  return TmpC->down->data;
                   break;
                 }
-                else{cout << "hi";}
+                throw ("error");
               }
               else{TmpC=TmpC->next;}
             }
 
           }
-          else{throw "error";}
+
+          throw ("error");
+
         };
 
         Matrix<T> operator*(Matrix<T> other); //multiplica dos matrices
-        Matrix<T> operator*(T scalar); //multiplca la matriz por un escalar
+        Matrix<T> operator*(T scalar){
+          Node<T>* TmpC=hColumns;
+
+          
+
+          return *this
+        }; //multiplca la matriz por un escalar
         Matrix<T> operator+(Matrix<T> other); //suma
         Matrix<T> operator-(Matrix<T> other); //resta
         Matrix<T> transposed(); //transposed
@@ -103,6 +124,12 @@ class Matrix {
           Node<T>* tempY = hRows;
 
           if(columns==other.columns && rows==other.rows){
+            for(int i=0; i<columns; i++){
+              for(int j=0; j<rows; j++){
+                this->set(i, j, other(i,j));
+              }
+            }
+            return *this;
           }
           else{throw "error";}
         }; //igualar una matriz a otra
@@ -113,13 +140,11 @@ class Matrix {
              Node<T>* tempX = tempY;
              while (tempX->next) {
                  tempX = tempX->next;
-                 cout << tempX->getXData() << "," << tempX->getYData() << "," << tempX->getData() << " ";
+                 cout << tempX->getXData() << "," << tempX->getYData() << "," << tempX->data << " ";
              }
              tempY = tempY->down;
              cout << endl;
          }
-         Node<T>* temp = hColumns->down;
-         cout << "value of X: " << temp->down->getXData() << " value of Y: " << temp->down->getYData();
        }
 
         //~Matrix();

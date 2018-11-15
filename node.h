@@ -7,11 +7,12 @@ template <class T>
 class Node {
 
   int x, y;
-  T data;
 
   public:
     Node* next=nullptr;
     Node* down=nullptr;
+
+    T data;
 
     Node(int _x, int _y, T _data):x(_x),y(_y),data(_data){}
     Node(int _x): x(_x){}
