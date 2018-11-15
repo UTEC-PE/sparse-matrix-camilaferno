@@ -108,16 +108,53 @@ class Matrix {
 
         };
 
-        Matrix<T> operator*(Matrix<T> other); //multiplica dos matrices
+        Matrix<T> operator*(Matrix<T> other){
+
+        }; //multiplica dos matrices
+
         Matrix<T> operator*(T scalar){
-          Node<T>* TmpC=hColumns;
+          Node<T>* tempY = hRows;
+          while (tempY) {
+              Node<T>* tempX = tempY;
+              while (tempX->next) {
+                  tempX = tempX->next;
+                  tempX->data=(tempX->data)*scalar;
+                  cout << tempX->getXData() << "," << tempX->getYData() << "," << tempX->data << " ";
+              }
+              tempY = tempY->down;
+              cout << endl;
+          }
 
-          
-
-          return *this
+          return *this;
         }; //multiplca la matriz por un escalar
-        Matrix<T> operator+(Matrix<T> other); //suma
-        Matrix<T> operator-(Matrix<T> other); //resta
+
+        Matrix<T> operator+(Matrix<T> other){
+          Node<T>* tempY = hRows;
+
+          if(columns==other.columns && rows==other.rows){
+            for(int i=0; i<columns; i++){
+              for(int j=0; j<rows; j++){
+                this->set(i, j, other(i,j)+this->operator()(i, j));
+              }
+            }
+            return *this;
+          }
+          else{throw "error";}
+        }; //suma
+
+        Matrix<T> operator-(Matrix<T> other){
+          Node<T>* tempY = hRows;
+
+          if(columns==other.columns && rows==other.rows){
+            for(int i=0; i<columns; i++){
+              for(int j=0; j<rows; j++){
+                this->set(i, j, this->operator()(i, j)-other(i,j));
+              }
+            }
+            return *this;
+          }
+          else{throw "error";}
+        }; //resta
         Matrix<T> transposed(); //transposed
 
         Matrix<T> operator=(Matrix<T> other){

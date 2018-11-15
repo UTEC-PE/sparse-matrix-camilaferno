@@ -21,6 +21,8 @@ int main(int argc, char *argv[]) {
   matrix.print();
   cout << endl;
 
+  matrix*2;
+
 
     return EXIT_SUCCESS;
 }
